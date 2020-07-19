@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.example.administrator.coolweather.WeatherActivity;
+import com.example.administrator.coolweather.gson.AQI;
 import com.example.administrator.coolweather.gson.Weather;
 import com.example.administrator.coolweather.util.HttpUtil;
 import com.example.administrator.coolweather.util.Utility;
@@ -49,7 +50,7 @@ public class AutoUpdateService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void updateBingPic() {
+    private void updateWeather() {
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString=prefs.getString("weather",null);
         if(weatherString!=null)
@@ -82,10 +83,8 @@ public class AutoUpdateService extends Service {
 
                     });
                 }
-        }
-
-
-    private void updateWeather() {
+    }
+    private void updateBingPic() {
         final String requestBingPic="http://guolin.tech/api/bing_pic";
         HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
             @Override
