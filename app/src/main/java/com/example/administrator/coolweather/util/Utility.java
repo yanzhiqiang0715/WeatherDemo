@@ -7,6 +7,7 @@ import com.example.administrator.coolweather.db.City;
 import com.example.administrator.coolweather.db.County;
 import com.example.administrator.coolweather.db.Province;
 import com.example.administrator.coolweather.gson.AQI;
+import com.example.administrator.coolweather.gson.SearchCity;
 import com.example.administrator.coolweather.gson.Weather;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -142,6 +143,17 @@ public class Utility {
         }
         return null;
 
+    }
+    public static SearchCity handleSearchCityResponse(String response){
+        try{
+            JSONObject jsonObject =new JSONObject(response);
+            Gson g=new Gson();
+            SearchCity searchCity =g.fromJson(jsonObject.toString(), SearchCity.class);
+            return searchCity;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

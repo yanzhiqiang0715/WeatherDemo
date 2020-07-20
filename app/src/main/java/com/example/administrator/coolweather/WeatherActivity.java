@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -26,11 +27,14 @@ import com.bumptech.glide.Glide;
 import com.example.administrator.coolweather.gson.AQI;
 import com.example.administrator.coolweather.gson.Forecast;
 import com.example.administrator.coolweather.gson.Lifestyle;
+import com.example.administrator.coolweather.gson.SearchCity;
 import com.example.administrator.coolweather.gson.Weather;
 import com.example.administrator.coolweather.service.AutoUpdateService;
 import com.example.administrator.coolweather.util.HttpUtil;
 import com.example.administrator.coolweather.util.Utility;
 import com.google.gson.Gson;
+
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,6 +47,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 import static com.example.administrator.coolweather.util.Utility.handleAQIResponse;
+import static com.example.administrator.coolweather.util.Utility.handleSearchCityResponse;
 import static com.example.administrator.coolweather.util.Utility.handleWeatherResponse;
 
 public class WeatherActivity extends AppCompatActivity {
@@ -59,6 +64,8 @@ public class WeatherActivity extends AppCompatActivity {
     private TextView carWashText;
     private TextView sportText;
     private ImageView bingPicImg;
+    private EditText cityEditText;
+    private Button searchCityButton;
 
     public SwipeRefreshLayout swipeRefresh;
     private String mWeatherId;
@@ -95,6 +102,8 @@ public class WeatherActivity extends AppCompatActivity {
         bingPicImg=(ImageView)findViewById(R.id.bing_pic_img);
         drawerLayout=(DrawerLayout)findViewById(R.id.drawer_layout);
         navButton=(Button)findViewById(R.id.nav_button);
+        cityEditText=findViewById(R.id.search_city);
+        searchCityButton=(Button)findViewById(R.id.search_button);
 
         swipeRefresh.setColorSchemeColors(R.color.colorPrimary);
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
@@ -146,6 +155,42 @@ public class WeatherActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    /**
+     * 查找城市
+     */
+    public void searchOnClick(View view){
+        String searchName=cityEditText.getText().toString().trim();
+        searchCityId(searchName);
+    }
+    private void searchCityId(String searchName){
+        String cityUrl="https://geoapi.heweather.net/v2/city/lookup?location="+searchName.toString()+
+                "&key=616d9568e63a4fadaec74888f36fc1a4";
+        HttpUtil.sendOkHttpRequest(cityUrl, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Toast.makeText(WeatherActivity.this,"搜索失败onFailure",Toast.LENGTH_LONG).show();
+                swipeRefresh.setRefreshing(false);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String responseText=response.body().string();
+                final SearchCity searchCity=handleSearchCityResponse(responseText);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if((searchCity!=null)&& "200".equals(searchCity.getStatus())){
+                            String searchedWeatherId=searchCity.getLocation().get(0).getId();
+                            requestWeather(searchedWeatherId);
+                        }else if((searchCity!=null)&& "404".equals(searchCity.getStatus())){
+                            Toast.makeText(WeatherActivity.this, "无此城市",Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+        });
     }
 
     /**
