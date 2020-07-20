@@ -99,15 +99,17 @@ public class WeatherActivity extends AppCompatActivity {
         swipeRefresh.setColorSchemeColors(R.color.colorPrimary);
         SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString=prefs.getString("weather",null);
-        /*String aqiString=prefs.getString("aqi",null);*/
+        String aqiString=prefs.getString("aqi",null);
 
-        if(weatherString!=null)
+        if(weatherString!=null && aqiString!=null)
         {
             //有缓存时直接解析天气数据
             Weather weather= (Weather) handleWeatherResponse(weatherString);
+            AQI aqi=(AQI) handleAQIResponse(aqiString);
             mWeatherId=weather.getHeWeather6().get(0).getBasicX().getCid();
 
             showWeatherInfo(weather);
+            showAQIInfo(aqi);
 
         }else
         {   //无缓存时,去服务器查询天气
@@ -116,6 +118,7 @@ public class WeatherActivity extends AppCompatActivity {
             weatherLayout.setVisibility(View.INVISIBLE);
             requestWeather(mWeatherId);
         }
+
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

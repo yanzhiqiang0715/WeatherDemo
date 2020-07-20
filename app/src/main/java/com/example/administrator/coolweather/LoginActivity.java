@@ -1,21 +1,34 @@
 package com.example.administrator.coolweather;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.content.Intent;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.administrator.coolweather.util.HttpUtil;
+
+import java.io.IOException;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private DBOpenHelper mDBOpenHelper;
     private EditText mEtLoginactivityUsername;
     private EditText mEtLoginactivityPassword;
+    private ImageView loginBingPicImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +40,50 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void initView() {
         // 初始化控件
+        loginBingPicImage=(ImageView) findViewById(R.id.login_bing_pic_img);
         mEtLoginactivityUsername = findViewById(R.id.et_loginactivity_username);
         mEtLoginactivityPassword = findViewById(R.id.et_loginactivity_password);
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        /**
+         * 读取缓存在SharedPreference的pic数据,
+         */
+        String bingPic=prefs.getString("bing_pic",null);
+        if(bingPic!=null)
+        {
+            Glide.with(this).load(bingPic).into(loginBingPicImage);
+        }
+        else
+        {
+            loadBingPic();
+        }
         // 设置点击事件监听器
+    }
+
+    /**
+     * 加载必应每日一图
+     */
+    private void loadBingPic() {
+        String requestBingPic="http://guolin.tech/api/bing_pic";
+        HttpUtil.sendOkHttpRequest(requestBingPic, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String bingpic=response.body().string();
+                SharedPreferences.Editor editor= PreferenceManager.getDefaultSharedPreferences(LoginActivity.this).edit();
+                editor.putString("bing_pic",bingpic);
+                editor.apply();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Glide.with(LoginActivity.this).load(bingpic).into(loginBingPicImage);
+                    }
+                });
+            }
+        });
     }
 
     public void onClick(View view) {

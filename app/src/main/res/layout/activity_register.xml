@@ -7,30 +7,29 @@
     android:background="#eeeeee"
     tools:context=".RegisterActivity">
 
+    <ImageView
+        android:id="@+id/reg_bing_pic_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
     <RelativeLayout
         android:id="@+id/rl_registeractivity_top"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         >
-        <ImageView
-            android:id="@+id/iv_registeractivity_back"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:clickable="true"
-            />
 
         <TextView
-            android:id="@+id/tv_registeractivity_register"
+            android:id="@+id/tv_registeractivity_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="注册"
-            android:textColor="#3A5FCD"
+            android:text="登录"
+            android:textColor="#fff"
             android:textSize="20dp"
-
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="30dp"
+            android:clickable="true"
+            android:onClick="onClick"
             />
     </RelativeLayout>
 
@@ -53,12 +52,15 @@
                 android:id="@+id/tv_registeractivity_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="用户名："/>
+                android:text="用户名："
+                android:textColor="#fff"/>
             <EditText
                 android:id="@+id/et_registeractivity_username"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:textColor="#fff"
                 android:hint="请输入用户名"
+                android:textColorHint="#fff"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 />
@@ -72,7 +74,8 @@
                 android:id="@+id/tv_registeractivity_password1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="密    码："/>
+                android:text="密    码："
+                android:textColor="#fff"/>
             <EditText
                 android:id="@+id/et_registeractivity_password"
                 android:layout_width="match_parent"
@@ -80,7 +83,9 @@
                 android:gravity="center_vertical"
                 android:layout_marginLeft="10dp"
                 android:inputType="textPassword"
-                android:hint="请输入密码" />
+                android:textColor="#fff"
+                android:hint="请输入密码"
+                android:textColorHint="#fff"/>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
