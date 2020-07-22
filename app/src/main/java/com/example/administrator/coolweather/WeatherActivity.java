@@ -191,9 +191,13 @@ public class WeatherActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        System.out.println(searchCity.getStatus());
                         if((searchCity!=null)&& "200".equals(searchCity.getStatus())){
                             String searchedWeatherId=searchCity.getLocation().get(0).getId();
                             requestWeather(searchedWeatherId);
+                        }
+                        else if((searchCity!=null)&& "404".equals(searchCity.getStatus())){
+                            Toast.makeText(WeatherActivity.this,"无此城市",Toast.LENGTH_LONG).show();
                         }
                     }
                 });
