@@ -202,6 +202,48 @@ public class WeatherActivity extends AppCompatActivity {
     }
 
     /**
+     * 天气点击事件
+     */
+    public void nowOnClick(View view){
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        String weatherNowString=prefs.getString("weatherNow",null);
+        if (weatherNowString!=null){
+            Intent intent=new Intent(this,WeatherNowActivity.class);
+            startActivity(intent);
+        }
+    }
+    public void forecastOnClick(View view){
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        String weatherForecastString=prefs.getString("weatherForecast",null);
+        if (weatherForecastString!=null){
+            Intent intent=new Intent(this,WeatherNowActivity.class);
+            startActivity(intent);
+        }
+    }
+    /**
+     * aqi点击事件
+     */
+    public void aqiOnClick(View view){
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        String aqiString=prefs.getString("aqi",null);
+        if (aqiString!=null){
+            Intent intent=new Intent(this,AqiActivity.class);
+            startActivity(intent);
+        }
+    }
+    /**
+     * 生活指数点击事件
+     */
+    public void lifeStyleOnClick(View view){
+        SharedPreferences prefs= PreferenceManager.getDefaultSharedPreferences(this);
+        String lifeStyleString=prefs.getString("lifeStyle",null);
+        if (lifeStyleString!=null){
+            Intent intent=new Intent(this,LifeStyleActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    /**
      * 加载必应每日一图
      */
     private void loadBingPic() {
