@@ -7,9 +7,12 @@ import com.example.administrator.coolweather.db.City;
 import com.example.administrator.coolweather.db.County;
 import com.example.administrator.coolweather.db.Province;
 import com.example.administrator.coolweather.gson.AQI;
+import com.example.administrator.coolweather.gson.Lifestyle;
 import com.example.administrator.coolweather.gson.SearchCity;
-import com.example.administrator.coolweather.gson.Weather;
+import com.example.administrator.coolweather.gson.WeatherForecast;
+import com.example.administrator.coolweather.gson.WeatherNow;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
@@ -104,16 +107,16 @@ public class Utility {
      * @return 实例化后的Weather对象
      */
     @Nullable
-    public static Weather handleWeatherResponse(String response) {
+    public static WeatherNow handleWeatherNowResponse(String response) {
         try {
 
             // 将整个json实例化保存在jsonObject中
             JSONObject jsonObject = new JSONObject(response);
-            // 返回通过Gson解析后的Weather对象*/
+            // 返回通过Gson解析后的Weather对象
             Gson g=new Gson();
-            Weather weather=  g.fromJson(jsonObject.toString(),Weather.class);
+            WeatherNow weatherNow=  g.fromJson(jsonObject.toString(),WeatherNow.class);
 
-            return weather;
+            return weatherNow;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,6 +134,8 @@ public class Utility {
             // 将整个json实例化保存在jsonObject中
 
             JSONObject jsonObject = new JSONObject(response);
+            // 从jsonObject中取出键为"HeWeather6"的数据,并保存在数组中
+            // 返回通过Gson解析后的Weather对象
             Gson g=new Gson();
             AQI aqi=  g.fromJson(jsonObject.toString(),AQI.class);
 
@@ -144,16 +149,40 @@ public class Utility {
         return null;
 
     }
+    public static WeatherForecast handleWeatherForecastResponse(String response){
+        try {
+            JSONObject jsonObject=new JSONObject(response);
+            Gson g=new Gson();
+            WeatherForecast weatherForecast=g.fromJson(jsonObject.toString(),WeatherForecast.class);
+            return weatherForecast;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static Lifestyle handleLifestyleResponse(String response){
+        try {
+            JSONObject jsonObject=new JSONObject(response);
+            Gson g=new Gson();
+            Lifestyle lifestyle=g.fromJson(jsonObject.toString(),Lifestyle.class);
+            return lifestyle;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
     public static SearchCity handleSearchCityResponse(String response){
         try{
             JSONObject jsonObject =new JSONObject(response);
             Gson g=new Gson();
-            SearchCity searchCity =g.fromJson(jsonObject.toString(), SearchCity.class);
+            SearchCity searchCity =g.fromJson(jsonObject.toString(),SearchCity.class);
             return searchCity;
         }catch (Exception e){
             e.printStackTrace();
         }
         return null;
     }
+
 
 }
