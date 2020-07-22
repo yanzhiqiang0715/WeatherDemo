@@ -423,7 +423,12 @@ public class WeatherActivity extends AppCompatActivity {
                             editor.apply();
                             showLifeStyleInfo(lifestyle);
 
-                        }else
+                        }else if ((lifestyle!=null)&& "403".equals(lifestyle.getCode())){
+                            comfortText.setText("舒适度：无");
+                            carWashText.setText("洗车指数：无");
+                            sportText.setText("运动指数：无");
+                        }
+                        else
                         {
                             Toast.makeText(WeatherActivity.this, responseText, Toast.LENGTH_SHORT).show();
 
@@ -464,7 +469,11 @@ public class WeatherActivity extends AppCompatActivity {
                             editor.putString("aqi",responseText);
                             editor.apply();
                             showAQIInfo(aqi);
+                        }else if ((aqi!=null)&& "403".equals(aqi.getCode())){
+                            aqiText.setText("无");
+                            pm25Text.setText("无");
                         }
+
                         else{
                             Toast.makeText(WeatherActivity.this,responseText,Toast.LENGTH_LONG).show();
                         }
