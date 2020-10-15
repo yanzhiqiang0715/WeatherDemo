@@ -165,7 +165,7 @@ public class AutoUpdateService extends Service {
 
                     SearchCity searchCity1=Utility.handleSearchCityResponse(responseText);
 
-                    if((searchCity1 != null) && "200".equals(searchCity1.getStatus()))
+                    if((searchCity1 != null) && "200".equals(searchCity1.getCode()))
                     {
                         SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(AutoUpdateService.this).edit();
                         editor.putString("searchCity",responseText);
@@ -191,6 +191,5 @@ public class AutoUpdateService extends Service {
                 editor.apply();
             }
         });
-
     }
 }

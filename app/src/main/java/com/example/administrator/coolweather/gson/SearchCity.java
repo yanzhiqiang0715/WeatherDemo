@@ -5,21 +5,21 @@ import java.util.List;
 public class SearchCity {
 
     /**
-     * status : 200
+     * code : 200
      * location : [{"name":"水城","id":"101260801","lat":"26.54047","lon":"104.95684","adm2":"六盘水","adm1":"贵州","country":"中国","tz":"Asia/Shanghai","utcOffset":"+08:00","isDst":"0","type":"city","rank":"35","fxLink":"http://hfx.link/3pn1"}]
      * refer : {"sources":["heweather.com"],"license":["commercial license"]}
      */
 
-    private String status;
+    private String code;
     private ReferBean refer;
     private List<LocationBean> location;
 
-    public String getStatus() {
-        return status;
+    public String getCode() {
+        return code;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public ReferBean getRefer() {

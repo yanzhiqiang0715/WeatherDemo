@@ -8,7 +8,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-
 import com.example.administrator.coolweather.gson.WeatherNow;
 import com.example.administrator.coolweather.util.Utility;
 

@@ -191,12 +191,12 @@ public class WeatherActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println(searchCity.getStatus());
-                        if((searchCity!=null)&& "200".equals(searchCity.getStatus())){
+                        System.out.println(searchCity.getCode());
+                        if((searchCity!=null)&& "200".equals(searchCity.getCode())){
                             String searchedWeatherId=searchCity.getLocation().get(0).getId();
                             requestWeather(searchedWeatherId);
                         }
-                        else if((searchCity!=null)&& "404".equals(searchCity.getStatus())){
+                        else if((searchCity!=null)&& "404".equals(searchCity.getCode())){
                             Toast.makeText(WeatherActivity.this,"无此城市",Toast.LENGTH_LONG).show();
                         }
                     }
@@ -300,8 +300,8 @@ public class WeatherActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println("searchCity:"+searchCity.getStatus());
-                        if((searchCity!=null)&& "200".equals(searchCity.getStatus())){
+                        System.out.println("searchCity:"+searchCity.getCode());
+                        if((searchCity!=null)&& "200".equals(searchCity.getCode())){
                             SharedPreferences.Editor editor=PreferenceManager.getDefaultSharedPreferences(WeatherActivity.this).edit();
                             editor.putString("searchCity",responseText);
                             editor.apply();
